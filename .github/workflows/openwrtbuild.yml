@@ -1,0 +1,46 @@
+name: Build OpenWrt 19.07.10
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+    - name: Checkout this repo
+      uses: actions/checkout@v4
+
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get -y install build-essential ccache ecj fastjar file g++ gawk \
+          gettext git java-propose-classpath libelf-dev libncurses5-dev \
+          libncursesw5-dev libssl-dev python3 python3-distutils python3-setuptools \
+          qemu-utils subversion swig unzip wget xsltproc zlib1g-dev
+
+    - name: Clone OpenWrt source (v19.07.10)
+      run: |
+        git clone https://github.com/openwrt/openwrt.git -b v19.07.10 openwrt
+
+    - name: Copy custom config
+      run: |
+        [ -f .config ] && cp .config openwrt/.config || echo "No .config found, using defaults"
+
+    - name: Update & install feeds
+      working-directory: openwrt
+      run: |
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+
+    - name: Build firmware
+      working-directory: openwrt
+      run: |
+        make defconfig
+        make -j$(nproc) V=s
+
+    - name: Upload firmware
+      uses: actions/upload-artifact@v4
+      with:
+        name: openwrt-19.07.10-firmware
+        path: openwrt/bin/targets/*/*
