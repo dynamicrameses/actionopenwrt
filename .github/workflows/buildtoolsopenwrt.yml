@@ -1,0 +1,39 @@
+name: Build OpenWrt 19.07.10 WR841N v10
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential ccache ecj fastjar file g++ gawk \
+            gettext git java-propose-classpath libncurses5-dev libssl-dev python2.7 \
+            python2.7-dev unzip wget xsltproc zlib1g-dev subversion flex uglifyjs \
+            node-uglify
+
+      - name: Download ImageBuilder
+        run: |
+          wget https://downloads.openwrt.org/releases/19.07.10/targets/ar71xx/tiny/openwrt-imagebuilder-19.07.10-ar71xx-tiny.Linux-x86_64.tar.xz
+          tar -Jxvf openwrt-imagebuilder-19.07.10-ar71xx-tiny.Linux-x86_64.tar.xz
+          mv openwrt-imagebuilder-19.07.10-ar71xx-tiny.Linux-x86_64 imagebuilder
+
+      - name: Build firmware
+        run: |
+          cd imagebuilder
+          make image PROFILE=tl-wr841n-v10 PACKAGES="uhttpd uhttpd-mod-ubus libiwinfo-lua \
+          luci-base luci-app-firewall luci-mod-admin-full luci-theme-bootstrap zram-swap \
+          -ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -opkg"
+
+      - name: Upload firmware
+        uses: actions/upload-artifact@v3
+        with:
+          name: openwrt-19.07.10-wr841n-v10
+          path: imagebuilder/bin/targets/ar71xx/tiny/
