@@ -9,7 +9,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@main
 
       - name: Install dependencies
         run: |
@@ -33,7 +33,7 @@ jobs:
           -ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -opkg"
 
       - name: Upload firmware
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: openwrt-19.07.10-wr841n-v10
           path: imagebuilder/bin/targets/ar71xx/tiny/
