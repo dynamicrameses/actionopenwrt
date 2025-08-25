@@ -28,6 +28,7 @@ jobs:
       - name: Build firmware
         run: |
           cd imagebuilder
+          make info | grep 841
           make image PROFILE=tl-wr841n-v10 PACKAGES="uhttpd uhttpd-mod-ubus libiwinfo-lua \
           luci-base luci-app-firewall luci-mod-admin-full luci-theme-bootstrap zram-swap \
           -ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -opkg"
