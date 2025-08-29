@@ -29,9 +29,10 @@ jobs:
         run: |
           cd imagebuilder
           make info | grep 841
-          make image PROFILE=tl-wr841-v10 PACKAGES="uhttpd uhttpd-mod-ubus libiwinfo-lua \
-            luci-base luci-app-firewall luci-mod-admin-full luci-theme-bootstrap zram-swap \
-            -ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -opkg"
+          make image PROFILE=tl-wr841-v10 PACKAGES=“uhttpd uhttpd-mod-ubus libiwinfo-lua luci-base \ 
+          luci-app-firewall luci-mod-admin-full luci-theme-bootstrap zram-swap \ 
+          -ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 \ 
+          -kmod-ip6tables -odhcpd-ipv6only -opkg”
 
       - name: Upload firmware
         uses: actions/upload-artifact@v4
