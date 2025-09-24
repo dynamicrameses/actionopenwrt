@@ -25,9 +25,9 @@ jobs:
         sudo apt-get install -y python2
         sudo ln -sf python2 /usr/bin/python
 
-    - name: Clone OpenWrt source (v19.07.10)
+    - name: Clone OpenWrt source (v21.02.7)
       run: |
-        git clone https://github.com/openwrt/openwrt.git -b v19.07.10 openwrt
+        git clone https://github.com/openwrt/openwrt.git -b v21.02.7 openwrt
 
     - name: Copy custom config
       run: |
