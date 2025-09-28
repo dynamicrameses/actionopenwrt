@@ -1,4 +1,4 @@
-name: Build OpenWrt 19.07.7
+name: Build OpenWrt 19.07.10
 
 on:
   workflow_dispatch:
@@ -27,7 +27,7 @@ jobs:
 
     - name: Clone OpenWrt source (v21.02.7)
       run: |
-        git clone https://github.com/openwrt/openwrt.git -b v19.07.7 openwrt
+        git clone https://github.com/openwrt/openwrt.git -b v19.07.10 openwrt
 
     - name: Copy custom config
       run: |
