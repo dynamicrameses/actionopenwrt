@@ -33,6 +33,10 @@ jobs:
       run: |
         cp .config openwrt/.config
 
+    - name: Cleaning
+      run: |
+        make distclean
+
     - name: Update & install feeds
       working-directory: openwrt
       run: |
